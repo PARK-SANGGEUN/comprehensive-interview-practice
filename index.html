@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>모두의 학생부종합전형 시뮬레이터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">
+      <div class="brand__title">모두의 학생부종합전형 시뮬레이터</div>
+      <div class="brand__copy">Copyright@All Teachers 화천고 박상근</div>
+    </div>
+    <div class="topbar__right">
+      <div class="seg">
+        <button class="seg__btn active" data-mode="student">학생</button>
+        <button class="seg__btn" data-mode="parent">학부모</button>
+        <button class="seg__btn" data-mode="assessor">사정관</button>
+      </div>
+      <div class="seg">
+        <button class="seg__btn" data-compare="off">단일</button>
+        <button class="seg__btn" data-compare="on">비교(A↔C)</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="left">
+    <div class="card">
+      <div class="card__h">대상 선택</div>
+      <select id="appSel" class="select"></select>
+      <div class="row row--gap8">
+        <div class="pill" id="resultPill"></div>
+        <div class="pill pill--muted" id="avgPill"></div>
+      </div>
+      <div class="muted small mt8" id="disclaimer"></div>
+    </div>
+
+    <div class="card">
+      <div class="card__h">키워드 검색</div>
+      <input id="q" class="input" placeholder="예: 탐구, 모델링, 데이터, 양자, 멘토, 통신" />
+      <div class="row row--gap8 mt8">
+        <button id="btnSearch" class="btn">검색</button>
+        <button id="btnClear" class="btn btn--ghost">초기화</button>
+      </div>
+      <div class="muted small mt8">검색은 과세특·활동·행특·평가자 코멘트 전체에서 작동합니다.</div>
+    </div>
+
+    <div class="card">
+      <div class="card__h">체크리스트</div>
+      <div id="checklist"></div>
+      <div class="muted small mt8">체크 항목을 누르면 관련 근거(과세특/활동)가 오른쪽에 표시됩니다.</div>
+    </div>
+  </aside>
+
+  <section class="center">
+    <div class="card">
+      <div class="card__h">요약 특징</div>
+      <div class="summaryGrid" id="summaryGrid"></div>
+      <div class="muted small mt8">※ 위 값은 동국대 사례 요약 지표를 교육용으로 재현한 값입니다.</div>
+    </div>
+
+    <div class="card">
+      <div class="card__h">성적 추이</div>
+      <div class="chartGrid">
+        <div class="chartBox"><canvas id="trend1" height="160"></canvas></div>
+        <div class="chartBox"><canvas id="trend2" height="160"></canvas></div>
+      </div>
+      <div class="muted small mt8">등급은 숫자가 낮을수록 우수합니다(1이 상위).</div>
+    </div>
+
+    <div class="card">
+      <div class="card__h row row--between row--gap8">
+        <span>교과 성적 · 과세특(전 과목)</span>
+        <div class="row row--gap8">
+          <select id="semSel" class="select select--sm"></select>
+          <select id="catSel" class="select select--sm">
+            <option value="all">전체</option>
+            <option value="major">전공</option>
+            <option value="basic">기초</option>
+            <option value="minor">비주요</option>
+          </select>
+        </div>
+      </div>
+      <div class="split">
+        <div class="tableWrap">
+          <table class="table" id="subTable"></table>
+        </div>
+        <div class="detail" id="detail">
+          <div class="empty">왼쪽 표에서 과목을 선택하면 과세특이 표시됩니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card__h">창의적 체험활동(학기별)</div>
+      <div class="tabs2">
+        <button class="tab2 active" data-tab="autonomous">자율</button>
+        <button class="tab2" data-tab="club">동아리</button>
+        <button class="tab2" data-tab="career">진로</button>
+        <button class="tab2" data-tab="volunteer">봉사</button>
+      </div>
+      <div id="actBody" class="actBody"></div>
+    </div>
+
+    <div class="card">
+      <div class="card__h">출결사항(학기별)</div>
+      <div id="attBody"></div>
+    </div>
+
+    <div class="card">
+      <div class="card__h">행동특성 및 종합의견(학년별)</div>
+      <div id="behBody"></div>
+    </div>
+
+    <div class="card" id="compareCard" style="display:none;">
+      <div class="card__h">비교 화면(A ↔ C)</div>
+      <div class="chartGrid">
+        <div class="chartBox"><canvas id="cmpTrend" height="160"></canvas></div>
+        <div class="chartBox"><canvas id="cmpRadar" height="160"></canvas></div>
+      </div>
+      <div class="muted small mt8">비교는 교육용 예시입니다. 실제 평가는 대학별 기준에 따라 달라질 수 있습니다.</div>
+    </div>
+  </section>
+
+  <aside class="right">
+    <div class="card sticky">
+      <div class="card__h">입학사정관 평가(가상 A~E)</div>
+      <div id="evalList"></div>
+      <div class="muted small mt8" id="rubricNote"></div>
+    </div>
+
+    <div class="card">
+      <div class="card__h">체크리스트 근거 / 검색 결과</div>
+      <div id="evidence" class="evidence">
+        <div class="empty">체크리스트 항목을 선택하거나, 키워드 검색을 실행해 보세요.</div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
