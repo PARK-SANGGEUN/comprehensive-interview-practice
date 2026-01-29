@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>모두의 학생부종합전형 시뮬레이터</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+<header class="top">
+  <h1>모두의 학생부종합전형 시뮬레이터</h1>
+  <div class="copy">Copyright@All Teachers 화천고 박상근</div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="student">학생 체크리스트</button>
+  <button class="tab" data-tab="parent">학부모 체크리스트</button>
+  <button class="tab" data-tab="graph">성적 추이 그래프</button>
+</nav>
+
+<main class="wrap">
+  <section id="student" class="panel active">
+    <h2>학생 자기 점검</h2>
+    <ul class="check">
+      <li><input type="checkbox"/> 전공 과목을 회피하지 않고 선택했다</li>
+      <li><input type="checkbox"/> 전공 성적이 유지·상승 추세다</li>
+      <li><input type="checkbox"/> 과세특에 탐구·문제해결이 반복된다</li>
+      <li><input type="checkbox"/> 학년이 올라갈수록 세특의 깊이가 깊어졌다</li>
+    </ul>
+    <p class="hint">✔ 많이 체크될수록 입학사정관 관점에서 유리합니다.</p>
+  </section>
+
+  <section id="parent" class="panel">
+    <h2>학부모 이해 점검</h2>
+    <ul class="check">
+      <li><input type="checkbox"/> 전체 평균보다 전공 평균이 중요하다</li>
+      <li><input type="checkbox"/> 비주요 3등급대는 치명적이지 않다</li>
+      <li><input type="checkbox"/> 성적의 패턴(유지·상승)을 본다</li>
+      <li><input type="checkbox"/> 활동은 나열이 아니라 연결이다</li>
+    </ul>
+    <p class="hint">✔ 체크가 어려운 문항이 상담 포인트입니다.</p>
+  </section>
+
+  <section id="graph" class="panel">
+    <h2>성적 추이</h2>
+    <canvas id="trend"></canvas>
+    <p class="hint">굵은 선은 전공 교과입니다. 사정관은 패턴을 먼저 봅니다.</p>
+  </section>
+</main>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
