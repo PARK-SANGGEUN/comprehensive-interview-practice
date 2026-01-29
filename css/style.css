@@ -1,0 +1,10 @@
+
+body{font-family:Arial;background:#f6f7fb;margin:0}
+header{text-align:center;background:#fff;padding:20px}
+.copy{font-weight:900}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:16px;padding:16px}
+aside,main{background:#fff;border-radius:12px;padding:12px}
+.tcell{display:inline-block;padding:6px 8px;margin:4px;border-radius:8px;font-weight:900}
+.lv2{background:#fff7ed}
+.lv3{background:#f0fdf4}
+.lv4{background:#eff6ff}
